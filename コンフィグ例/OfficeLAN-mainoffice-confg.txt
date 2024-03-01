@@ -1,0 +1,144 @@
+
+!
+! Last configuration change at 02:01:18 UTC Mon May 28 2018 by cisco
+!
+version 15.5
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname MainOffice
+!
+boot-start-marker
+boot-end-marker
+!
+!
+logging buffered 51200 warnings
+!
+no aaa new-model
+ethernet lmi ce
+!
+crypto pki trustpoint TP-self-signed-2770368567
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2770368567
+ revocation-check none
+ rsakeypair TP-self-signed-2770368567
+!
+!
+crypto pki certificate chain TP-self-signed-2770368567
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 32373730 33363835 3637301E 170D3138 30353231 30353436 
+  34385A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D32 37373033 
+  36383536 3730819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100CF91 6FA57B66 DDBAC11F 4B27DB63 54A528AA 440F74E4 FCDD0C76 16FBA7BA 
+  9E2079DE 4D604A53 7D6B9FB4 D165D0B8 E62FE973 7DE028B6 236637B8 38F0E7DD 
+  8F557ECC D929904E 4AD37523 21E96F6E 20CBBBD6 BB6165E1 27B09DE4 5F14A34D 
+  7AAA3B65 3B016026 C3278AA4 027C528C 33175FAB AADCEECE 6E9C43E9 9E7CF5A6 
+  00D50203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 14421591 51D3131A 2E4E275D 1078B785 F791E13C E6301D06 
+  03551D0E 04160414 42159151 D3131A2E 4E275D10 78B785F7 91E13CE6 300D0609 
+  2A864886 F70D0101 05050003 818100AD 970785D1 C4FD73BD BE93A53D C3CF8B2A 
+  C06F42A7 DEAEF4EC E909F41D 1C91BC84 397274E2 5596E025 195147AF 2BF1EE9D 
+  75EB77B7 B39AD5AA 37C7687C EEBFB6FF 8832E75D 2A544D1B FD3EAA9C 97797961 
+  876A1092 BDC735D4 0C5BCB01 60D168DC D7A2F890 0E8513ED DF93F520 5DDA2105 
+  41BF6027 80AAD0D6 F3BBAFCC 78431A
+  	quit
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name yourdomain.com
+ip cef
+no ipv6 cef
+!
+!
+license udi pid C841M-4X-JSEC/K9 sn FGL213895HG
+!
+!
+username cisco privilege 15 secret 5 $1$xkDa$GK9MzUw6bPv3JL0JeJxXJ1
+!
+redundancy
+!
+!
+!
+!
+no cdp run
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+!
+interface GigabitEthernet0/1
+ no ip address
+!
+interface GigabitEthernet0/2
+ no ip address
+!
+interface GigabitEthernet0/3
+ no ip address
+!
+interface GigabitEthernet0/4
+ ip address 10.0.1.1 255.255.255.0
+ duplex auto
+ speed 100
+!
+interface GigabitEthernet0/5
+ ip address 10.0.0.3 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ description $ETH_LAN$
+ ip address 172.16.1.1 255.255.255.0
+ ip tcp adjust-mss 1452
+!
+router ospf 2
+ network 10.0.0.0 0.255.255.255 area 0
+ network 172.16.1.0 0.0.0.255 area 0
+!
+ip forward-protocol nd
+ip http server
+ip http access-class 23
+ip http authentication local
+ip http secure-server
+ip http timeout-policy idle 60 life 86400 requests 10000
+!
+!
+!
+!
+!
+access-list 23 permit any
+!
+!
+line con 0
+ login local
+ no modem enable
+line vty 0 4
+ access-class 23 in
+ privilege level 15
+ login local
+ transport input telnet ssh
+line vty 5 15
+ access-class 23 in
+ privilege level 15
+ login local
+ transport input telnet ssh
+!
+scheduler allocate 20000 1000
+!
+end

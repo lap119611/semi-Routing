@@ -1,0 +1,98 @@
+!
+! Last configuration change at 06:09:45 UTC Fri Nov 5 2021
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname RouterB
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+!
+license udi pid C841M-4X-JSEC/K9 sn FGL2332130A
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+!
+interface GigabitEthernet0/1
+ no ip address
+!
+interface GigabitEthernet0/2
+ no ip address
+!
+interface GigabitEthernet0/3
+ no ip address
+!
+interface GigabitEthernet0/4
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/5
+ no ip address
+ duplex auto
+ speed auto
+ ipv6 address FD00:3::2/64
+!
+interface Vlan1
+ no ip address
+ ipv6 address FD00:2::/64 eui-64
+!
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+!
+!
+!
+ipv6 route FD00:1::/64 FD00:3::1
+!
+!
+!
+!
+line con 0
+ no modem enable
+line vty 0 4
+ login
+ transport input none
+!
+scheduler allocate 20000 1000
+!
+end

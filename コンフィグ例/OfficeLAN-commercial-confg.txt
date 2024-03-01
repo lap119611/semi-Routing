@@ -1,0 +1,101 @@
+
+!
+! Last configuration change at 03:01:39 UTC Mon May 28 2018
+!
+version 15.5
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Commercial
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+license udi pid C841M-4X-JSEC/K9 sn FGL2138935G
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+!
+interface GigabitEthernet0/1
+ no ip address
+!
+interface GigabitEthernet0/2
+ no ip address
+!
+interface GigabitEthernet0/3
+ no ip address
+!
+interface GigabitEthernet0/4
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/5
+ ip address 10.10.10.10 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ ip address 192.168.10.254 255.255.255.0
+!
+router ospf 2
+ network 10.0.0.0 0.255.255.255 area 0
+ network 192.168.10.0 0.0.0.255 area 0
+!
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ no modem enable
+line vty 0 4
+ password cisco
+ login
+ transport input none
+!
+scheduler allocate 20000 1000
+!
+end
